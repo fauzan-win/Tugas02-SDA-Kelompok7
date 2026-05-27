@@ -21,3 +21,13 @@ void bubbleSort(int arr[], int n);
 void insertionSort(int arr[], int n);
 void selectionSort(int arr[], int n);
 void jalankanSortingDasar(int pilihan);
+
+
+// Deklarasi fungsi dari advance_sort.c
+void cetakArrayStr(char arr[][MAX_PANJANG_KATA], int n, int total);
+void shuffleStr(char arr[][MAX_PANJANG_KATA], int n);
+
+// Membaca kata dari words.txt
+int bacaFile(char arr[][MAX_PANJANG_KATA], int maks);
+void merge(char arr[][MAX_PANJANG_KATA], int kiri, int tengah, int kanan);
+void mergeSort(char arr[][MAX_PANJANG_KATA], int kiri, int kanan);
