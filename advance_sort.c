@@ -70,3 +70,97 @@ void mergeSort(char arr[][MAX_PANJANG_KATA], int kiri, int kanan) {
         merge(arr, kiri, tengah, kanan);
     }
 }
+
+
+//QUICK SORT
+
+//Fungsi bantu: partisi array, kembalikan indeks pivot akhir
+int partisi(char arr[][MAX_PANJANG_KATA], int rendah, int tinggi) {
+    char pivot[MAX_PANJANG_KATA];
+    strcpy(pivot, arr[tinggi]);   /* pivot = elemen terakhir */
+    int i = rendah - 1;
+    char tmp[MAX_PANJANG_KATA];
+
+    for (int j = rendah; j < tinggi; j++) {
+        if (strcmp(arr[j], pivot) <= 0) {
+            i++;
+            strcpy(tmp,    arr[i]);
+            strcpy(arr[i], arr[j]);
+            strcpy(arr[j], tmp);
+        }
+    }
+
+    strcpy(tmp,         arr[i + 1]);
+    strcpy(arr[i + 1],  arr[tinggi]);
+    strcpy(arr[tinggi], tmp);
+    return i + 1;
+}
+
+void quickSort(char arr[][MAX_PANJANG_KATA], int rendah, int tinggi) {
+    if (rendah < tinggi) {
+        int pi = partisi(arr, rendah, tinggi);
+        quickSort(arr, rendah, pi - 1);
+        quickSort(arr, pi + 1, tinggi);
+    }
+}
+
+//SHELL SORT
+void shellSort(char arr[][MAX_PANJANG_KATA], int n) {
+    char tmp[MAX_PANJANG_KATA];
+    for (int gap = n / 2; gap > 0; gap /= 2) {
+        for (int i = gap; i < n; i++) {
+            strcpy(tmp, arr[i]);
+            int j = i;
+            while (j >= gap && strcmp(arr[j - gap], tmp) > 0) {
+                strcpy(arr[j], arr[j - gap]);
+                j -= gap;
+            }
+            strcpy(arr[j], tmp);
+        }
+    }
+}
+
+//Baca file, shuffle, sort, tampilkan hasil & waktu
+void jalankanAdvanceSorting(int pilihan) {
+    const char *nama[] = { "", "Merge Sort", "Quick Sort", "Shell Sort" };
+
+    /* Alokasi dinamis (heap) agar tidak stack overflow untuk data besar */
+    char (*data)[MAX_PANJANG_KATA] =
+        malloc((size_t)MAX_KATA * MAX_PANJANG_KATA);
+    if (!data) {
+        printf("[ERROR] Gagal alokasi memori.\n");
+        return;
+    }
+
+    //Baca seluruh kata dari file
+    int n = bacaFile(data, MAX_KATA);
+    if (n == 0) { free(data); return; }
+
+    //2. Shuffle sebelum sorting
+    srand((unsigned)time(NULL));
+    shuffleStr(data, n);
+
+    printf("\n===== %s =====\n", nama[pilihan]);
+    printf("Total kata dibaca : %d\n", n);
+    printf("Kata SEBELUM sorting (%d kata pertama):\n", TAMPIL);
+    cetakArrayStr(data, TAMPIL, n);
+
+    //3. Ukur waktu eksekusi dengan clock()
+    clock_t mulai = clock();
+
+    switch (pilihan) {
+        case 1: mergeSort(data, 0, n - 1); break;
+        case 2: quickSort(data, 0, n - 1); break;
+        case 3: shellSort(data, n);         break;
+    }
+
+    clock_t selesai = clock();
+    double waktu = (double)(selesai - mulai) / CLOCKS_PER_SEC;
+
+    //4. Tampilkan hasil
+    printf("Kata SETELAH sorting (%d kata pertama):\n", TAMPIL);
+    cetakArrayStr(data, TAMPIL, n);
+    printf("Waktu eksekusi : %.6f detik\n\n", waktu);
+
+    free(data);
+}
