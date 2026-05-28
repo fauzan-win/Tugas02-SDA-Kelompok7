@@ -1,23 +1,23 @@
+#include "functions.h"
 
+void menuSortingDasar(void) {
+    int pilih;
+    do {
+        printf("\n===== SORTING DASAR =====\n");
+        printf("1. Bubble Sort\n");
+        printf("2. Insertion Sort\n");
+        printf("3. Selection Sort\n");
+        printf("4. Kembali\n");
+        printf("Pilih metode : ");
+        scanf("%d", &pilih);
 
+        if (pilih >= 1 && pilih <= 3)
+            jalankanSortingDasar(pilih);
+        else if (pilih != 4)
+            printf("Pilihan tidak valid! Silakan pilih 1-4.\n");
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    } while (pilih != 4);
+}
 
 
 void menuAdvanceSorting(void) {
