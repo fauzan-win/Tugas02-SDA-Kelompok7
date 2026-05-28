@@ -38,3 +38,26 @@ void menuAdvanceSorting(void) {
 
     } while (pilih != 4);
 }
+
+
+//MENU UTAMA
+int main(void) {
+    int pilih;
+    do {
+        printf("\n===== MENU UTAMA =====\n");
+        printf("1. Sorting Dasar\n");
+        printf("2. Advance Sorting\n");
+        printf("3. Keluar\n");
+        printf("Pilih menu : ");
+        scanf("%d", &pilih);
+
+        switch (pilih) {
+            case 1: menuSortingDasar();   break;
+            case 2: menuAdvanceSorting(); break;
+            case 3: printf("\nTerima kasih! Program selesai.\n\n"); break;
+            default: printf("Pilihan tidak valid! Silakan pilih 1-3.\n");
+        }
+    } while (pilih != 3);
+
+    return 0;
+}
